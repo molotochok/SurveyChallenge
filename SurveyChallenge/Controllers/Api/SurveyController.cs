@@ -87,5 +87,23 @@ namespace SurveyChallenge.Controllers.Api
 
             return Ok();
         }
+
+        // DELETE api/survey/{id}
+        [HttpDelete("survey/{id}")]
+        public ActionResult DeleteSurvey(int id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var surveyInDb = _context.Surveys.SingleOrDefault(s => s.Id == id);
+
+            if (surveyInDb == null)
+                return NotFound();
+
+            _context.Surveys.Remove(surveyInDb);
+            _context.SaveChanges();
+
+            return Ok();
+        }
     }
 }
