@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using SurveyChallenge.Dtos;
 using SurveyChallenge.Models;
@@ -29,6 +30,12 @@ namespace SurveyChallenge.Controllers.Api
         {
             var surveys = _context.Surveys.Select(m => _mapper.Map<SurveyDto>(m)).ToList();
 
+            //foreach (var surveyDto in surveys)
+            //{
+            //    _context.Questions.Where(q => q.)
+            //    surveyDto.Questions.Add(question);
+            //}
+
             return Ok(surveys);
         }
         
@@ -42,6 +49,18 @@ namespace SurveyChallenge.Controllers.Api
                 return NotFound();
 
             return Ok(_mapper.Map<SurveyDto>(survey));
+        }
+
+        [HttpPost]
+        public ActionResult PostSurvey(SurveyDto surveyDto)
+        {
+            var survey = _mapper.Map<Survey>(surveyDto);
+
+            _context.Surveys.Add(survey);
+            _context.SaveChanges();
+
+            surveyDto.Id = survey.Id;
+            return Created(new Uri(Request.GetDisplayUrl() + "/" + survey.Id), surveyDto);
         }
     }
 }

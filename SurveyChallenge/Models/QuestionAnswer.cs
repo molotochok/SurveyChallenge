@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace SurveyChallenge.Models
 {
-    public class Question
+    public class QuestionAnswer
     {
         public int Id { get; set; }
 
         [Required]
-        public string Text { get; set; }
-
-        public string Comment { get; set; }
+        public Question Question { get; set; }
+        [Required]
+        public Answer Answer { get; set; }
     }
 }
