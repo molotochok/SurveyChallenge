@@ -29,5 +29,17 @@ namespace SurveyChallenge.Controllers.Api
 
             return Ok(surveys);
         }
+
+
+        [HttpGet("{id}")]
+        public ActionResult GetSurvey(int id)
+        {
+            var survey = _context.Surveys.SingleOrDefault(s => s.Id == id);
+
+            if (survey == null)
+                return NotFound();
+
+            return Ok(survey);
+        }
     }
 }
