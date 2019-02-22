@@ -22,6 +22,9 @@ namespace SurveyChallenge.Models
         [Display(Name = "Author name")]
         public string AuthorName { get; set; }
 
+        [Display(Name = "View count")]
+        public int ViewCount { get; set; }
+
         public List<Question> Questions { get; set; }
     }
 }
