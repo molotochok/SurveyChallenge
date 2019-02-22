@@ -25,7 +25,5 @@ namespace SurveyChallenge.Dtos
 
         [Display(Name = "View count")]
         public int ViewCount { get; set; }
-
-        public List<Question> Questions { get; set; }
     }
 }

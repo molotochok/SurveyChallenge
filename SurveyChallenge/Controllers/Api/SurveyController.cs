@@ -30,12 +30,6 @@ namespace SurveyChallenge.Controllers.Api
         {
             var surveys = _context.Surveys.Select(m => _mapper.Map<SurveyDto>(m)).ToList();
 
-            //foreach (var surveyDto in surveys)
-            //{
-            //    _context.Questions.Where(q => q.)
-            //    surveyDto.Questions.Add(question);
-            //}
-
             return Ok(surveys);
         }
         
