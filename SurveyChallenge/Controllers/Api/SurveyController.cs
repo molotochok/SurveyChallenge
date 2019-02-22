@@ -29,9 +29,6 @@ namespace SurveyChallenge.Controllers.Api
         [HttpGet("surveys")]
         public ActionResult GetSurveys()
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var surveys = _context.Surveys.Select(m => _mapper.Map<SurveyDto>(m)).ToList();
 
             return Ok(surveys);
@@ -41,9 +38,6 @@ namespace SurveyChallenge.Controllers.Api
         [HttpGet("survey/{id}")]
         public ActionResult GetSurvey(int id)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var survey = _context.Surveys.SingleOrDefault(s => s.Id == id);
 
             if (survey == null)
@@ -56,9 +50,6 @@ namespace SurveyChallenge.Controllers.Api
         [HttpPost("survey")]
         public ActionResult PostSurvey(SurveyDto surveyDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var survey = _mapper.Map<Survey>(surveyDto);
 
             _context.Surveys.Add(survey);
@@ -72,9 +63,6 @@ namespace SurveyChallenge.Controllers.Api
         [HttpPut("survey/{id}")]
         public ActionResult PutSurvey(int id, SurveyDto surveyDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var surveyInDb = _context.Surveys.SingleOrDefault(s => s.Id == id);
 
             if (surveyInDb == null)
@@ -92,9 +80,6 @@ namespace SurveyChallenge.Controllers.Api
         [HttpDelete("survey/{id}")]
         public ActionResult DeleteSurvey(int id)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var surveyInDb = _context.Surveys.SingleOrDefault(s => s.Id == id);
 
             if (surveyInDb == null)

@@ -28,9 +28,6 @@ namespace QuestionChallenge.Controllers.Api
         [HttpGet("questions")]
         public ActionResult GetQuestions()
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var questions = _context.Questions.Select(m => _mapper.Map<QuestionDto>(m)).ToList();
 
             return Ok(questions);
@@ -40,9 +37,6 @@ namespace QuestionChallenge.Controllers.Api
         [HttpGet("question/{id}")]
         public ActionResult GetQuestion(int id)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var question = _context.Questions.SingleOrDefault(s => s.Id == id);
 
             if (question == null)
@@ -55,9 +49,6 @@ namespace QuestionChallenge.Controllers.Api
         [HttpPost("question")]
         public ActionResult PostQuestion(QuestionDto questionDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var question = _mapper.Map<Question>(questionDto);
 
             _context.Questions.Add(question);
@@ -71,9 +62,6 @@ namespace QuestionChallenge.Controllers.Api
         [HttpPut("question/{id}")]
         public ActionResult PutQuestion(int id, QuestionDto questionDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var questionInDb = _context.Questions.SingleOrDefault(s => s.Id == id);
 
             if (questionInDb == null)
@@ -91,9 +79,6 @@ namespace QuestionChallenge.Controllers.Api
         [HttpDelete("question/{id}")]
         public ActionResult DeleteQuestion(int id)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var questionInDb = _context.Questions.SingleOrDefault(s => s.Id == id);
 
             if (questionInDb == null)

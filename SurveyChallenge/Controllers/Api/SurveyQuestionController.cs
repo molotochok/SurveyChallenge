@@ -29,9 +29,6 @@ namespace SurveyChallenge.Controllers.Api
         [HttpPost("survey/{id}")]
         public ActionResult AddQuestionToSurvey(int id, QuestionDto questionDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
             var surveyInDb = _context.Surveys.SingleOrDefault(s => s.Id == id);
             if (surveyInDb == null)
                 return NotFound();
@@ -46,6 +43,18 @@ namespace SurveyChallenge.Controllers.Api
             _context.SaveChanges();
 
             return Created(new Uri(Request.GetDisplayUrl() + "/" + surveyQuestion.Id), surveyQuestion);
+        }
+
+        // GET /surveyquestions/{surveyId}
+        [HttpGet("surveyquestions/{surveyId}")]
+        public ActionResult GetQuestionsOfSurvey(int surveyId)
+        {
+            var questions = _context.SurveyQuestions
+                .Where(s => s.Survey.Id == surveyId)
+                .Select(q => _mapper.Map<QuestionDto>(q.Question))
+                .ToList();
+
+            return Ok(questions);
         }
     }
 }
