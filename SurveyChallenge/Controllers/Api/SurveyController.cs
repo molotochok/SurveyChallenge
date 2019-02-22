@@ -12,7 +12,7 @@ using SurveyChallenge.Models;
 
 namespace SurveyChallenge.Controllers.Api
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class SurveyController : ControllerBase
     {
@@ -25,18 +25,25 @@ namespace SurveyChallenge.Controllers.Api
             _mapper = mapper;
         }
 
-        [HttpGet]
+        // GET /api/surveys
+        [HttpGet("surveys")]
         public ActionResult GetSurveys()
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             var surveys = _context.Surveys.Select(m => _mapper.Map<SurveyDto>(m)).ToList();
 
             return Ok(surveys);
         }
-        
 
-        [HttpGet("{id}")]
+        // GET api/survey/{id}
+        [HttpGet("survey/{id}")]
         public ActionResult GetSurvey(int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             var survey = _context.Surveys.SingleOrDefault(s => s.Id == id);
 
             if (survey == null)
@@ -45,9 +52,13 @@ namespace SurveyChallenge.Controllers.Api
             return Ok(_mapper.Map<SurveyDto>(survey));
         }
 
-        [HttpPost]
+        // POST api/survey
+        [HttpPost("survey")]
         public ActionResult PostSurvey(SurveyDto surveyDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             var survey = _mapper.Map<Survey>(surveyDto);
 
             _context.Surveys.Add(survey);
@@ -55,6 +66,26 @@ namespace SurveyChallenge.Controllers.Api
 
             surveyDto.Id = survey.Id;
             return Created(new Uri(Request.GetDisplayUrl() + "/" + survey.Id), surveyDto);
+        }
+
+        // PUT api/survey/{id}
+        [HttpPut("survey/{id}")]
+        public ActionResult PutSurvey(int id, SurveyDto surveyDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var surveyInDb = _context.Surveys.SingleOrDefault(s => s.Id == id);
+
+            if (surveyInDb == null)
+                return NotFound();
+
+            surveyDto.Id = surveyInDb.Id;
+            _mapper.Map(surveyDto, surveyInDb);
+ 
+            _context.SaveChanges();
+
+            return Ok();
         }
     }
 }
