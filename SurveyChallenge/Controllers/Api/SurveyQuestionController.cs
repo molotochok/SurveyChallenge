@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Policy;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -55,6 +56,27 @@ namespace SurveyChallenge.Controllers.Api
                 .ToList();
 
             return Ok(questions);
+        }
+
+        // DELETE/surveyquestions/{surveyId}
+        [HttpDelete("surveyquestions/{surveyId}")]
+        public ActionResult RemoveQuestionsFromSurvey(int surveyId)
+        {
+            var surveyInDb = _context.Surveys.SingleOrDefault(s => s.Id == surveyId);
+
+            if (surveyInDb == null)
+                return NotFound();
+
+            var surveyQuestions = _context.SurveyQuestions;
+            foreach (var surveyQuestion in surveyQuestions)
+            {
+                if (surveyQuestion.Survey.Id == surveyId)
+                    surveyQuestions.Remove(surveyQuestion);
+
+            }
+            _context.SaveChanges();
+
+            return Ok();
         }
     }
 }
