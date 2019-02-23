@@ -6,6 +6,7 @@
 }
 
 .survey-page-title {
+    font-weight: bold;
     font-style: italic;
     font-size: x-large;
     font-family: "Arial";
@@ -33,7 +34,26 @@ table {
 table, td {
     border-collapse: collapse;
     border-bottom: 1px solid black;
-    padding: 10px;
+    padding: 9px;
 }
 
+.survey-arrow-td {
+    float: right;
+}
 
+.survey-name {
+    font-weight: bold;
+    font-size: medium;
+    font-family: "Arial";
+}
+.survey-dateCreated {
+    font-style: italic;
+    font-size: x-small;
+    font-family: "Arial";
+    color: gray;
+}
+.survey-authorName {
+    font-size: x-small;
+    font-family: "Arial";
+    color: gray;
+}

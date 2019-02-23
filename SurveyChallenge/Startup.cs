@@ -70,7 +70,7 @@ namespace SurveyChallenge
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Survey}/{action=Home}/{id?}");
+                    template: "{controller=Surveys}/{action=Index}/{id?}");
             });
         }
     }

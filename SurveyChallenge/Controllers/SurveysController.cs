@@ -6,11 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SurveyChallenge.Controllers
 {
-    public class SurveyController : Controller
+    public class SurveysController : Controller
     {
-        public IActionResult Home()
+        public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Detail(int id)
+        {
+            return View(id);
         }
     }
 }

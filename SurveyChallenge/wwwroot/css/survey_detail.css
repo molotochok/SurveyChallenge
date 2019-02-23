@@ -1,0 +1,18 @@
+﻿.center {
+    margin: auto;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+}
+
+#survey-name {
+    font-weight: bold;
+    font-size: x-large;
+    font-family: "Arial";
+}
+#survey-description {
+    font-size: medium;
+    font-family: "Arial";
+    margin-left: 75px;
+    margin-right: 75px;
+}
