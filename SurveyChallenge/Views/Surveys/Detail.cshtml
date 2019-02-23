@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model int
+<!DOCTYPE html>
 <html>
 <head>
     <link rel="stylesheet" href="~/css/survey_detail.css" />
@@ -8,7 +9,7 @@
 <body>
     <div>
         <div class="center">
-            <label id="survey-name">Survey 1</label>
+            <label id="survey-name">Survey @Model</label>
         </div>
         <div class="center">
             <label id="survey-description">Простота в работе. Мы приложили много усилий, чтобы работать на нашей бирже копирайтинга было максимально легко и удобно. Интуитивно понятный интерфейс, постоянное совершенствование функционала и подробный FAQ помогут в работе начинающим и обеспечат комфорт постоянным пользователям сервиса Text.ru.</label>

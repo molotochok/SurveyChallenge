@@ -6,13 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SurveyChallenge.Controllers
 {
-    public class SurveysController : Controller
+    public class QuestionsController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult New()
         {
             return View();
@@ -20,12 +15,7 @@ namespace SurveyChallenge.Controllers
 
         public IActionResult Save()
         {
-            return RedirectToAction("Index", "Surveys");
-        }
-        
-        public IActionResult Detail(int id)
-        {
-            return View(id);
+            return RedirectToAction("Detail", "Surveys",new {id=10});
         }
     }
 }
