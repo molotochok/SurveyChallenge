@@ -1,5 +1,4 @@
-﻿.center {
-    margin: auto;
+﻿.center {   
     width: 100%;
     padding: 10px;
     text-align: center;
@@ -13,6 +12,33 @@
 #survey-description {
     font-size: medium;
     font-family: "Arial";
-    margin-left: 75px;
-    margin-right: 75px;
+}
+
+#survey-createdDate {
+    color:gray;
+    float: right;
+    margin-right: 50px;
+    font-style: italic;
+}
+#survey-authorName {
+    clear:both;
+    color: gray;
+    float: left;
+    margin-left: 100px;
+}
+
+#add-question-btn {
+    float: right;
+    width: 150px;
+    margin-right: 25px;
+    height: 38px;
+    border: 2px solid black;
+    background-color: white;
+}
+
+#survey-visit-count{
+    clear:both;
+    float: left;
+    margin-left: 100px;
+    margin-top: 10px;
 }
