@@ -4,40 +4,60 @@
     <link rel="stylesheet" href="~/css/surveys.css" />
     <meta name="viewport" content="width=device-width" />
     <title>Home</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // GET surveys to fill list of surveys
+            $.ajax({
+                url: "/api/surveys",
+                method: "GET",
+                success: function (surveys) {
+                    surveys.forEach(function(survey) {
+                        $("#surveys").append("" +
+                            "<tr>" +
+                            "   <td>" +
+                            "       <div class='survey-page-table-td'>" +
+                            "           <div>" +
+                            "               <label class='survey-Name'>" + survey.name + "</label>" +
+                            "               <label class='survey-dateCreated'>Created " + new Date(survey.dateCreated).getFullYear() + " year</label>" +
+                            "           </div>" +
+                            "           <div class='survey-authorName'>" +
+                            "               <label>"+survey.authorName+"</label>" +
+                            "           </div>" +
+                            "       </div>" +
+                            "   </td>" +
+                            "   <td>" +
+                            "       <img src='/images/eye.png'/>" +
+                            "       <label>"+survey.viewCount+"</label>" +
+                            "   </td>" +
+                            "   <td>" +
+                            "       <img src='/images/next.png' class='survey-arrow-td'/>" +
+                            "   </td>" +
+                            "</tr>"
+                        );
+                    });
+                }
+            });
+        });
+    </script>
+
 </head>
 <body>
-    <div>
-        <div class="center">
-            <label class="survey-page-title">Feedback Manager</label>
-        </div>
-
-        <button class="add-survey-button">Create new survey</button>
-
-        <div id="surveys-div">
-            <table>
-                <tr>
-                    <td>
-                        <div class="survey-page-table-td">
-                            <div>
-                                <label class="survey-Name">Survey 1</label>
-                                <label class="survey-dateCreated">Created Today</label>
-                            </div>
-                            <div class="survey-authorName">
-                                <label>Author</label>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <img src="~/images/eye.png"/>
-                        <label>5</label>
-                    </td>
-                    <td>
-                        <img src="~/images/next.png" class="survey-arrow-td"/>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
+<div>
+    <!-- Title Feedback Manager-->
+    <div class="center">
+        <label class="survey-page-title">Feedback Manager</label>
     </div>
+    
+    <!-- New Survey button-->
+    <button class="add-survey-button">Create new survey</button>
+    
+    <!-- List of Surveys-->
+    <div id="surveys-div">
+        <table id="surveys">
+        </table>
+    </div>
+
+</div>
 </body>
 </html>
