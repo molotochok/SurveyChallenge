@@ -1,38 +1,65 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="~/css/bootstrap.css"/>
-    <meta name="viewport" content="width=device-width"/>
+    <link rel="stylesheet" href="~/css/bootstrap.css" />
+    <meta name="viewport" content="width=device-width" />
     <title>New</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Submit button click event
+            // Check if all data is valid
+            // If valid -> create new survey
+            $("#submit").click(function () {
+                var surveyName = $("#survey-name").val();
+                var authorName = $("#author-name").val();
+                var description = $("#description").val();
+                var creationDate = $("#creation-date").val();
+
+                // Creating survey
+                var surveyJson = JSON.stringify({
+                    name: surveyName,
+                    description: description,
+                    dateCreated: creationDate,
+                    authorName: authorName,
+                    viewCount: 0
+                });
+
+                // Send POST request to add new servey
+                $.ajax({
+                    url: "/api/survey",
+                    contentType: "application/json; charset=utf-8",
+                    method: "POST",
+                    data: surveyJson,
+                    datatype: "json",
+                    success: function (e) {
+                        window.location.href = "/surveys/index";
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
-<div style="width: 500px; text-align: center;">
-    @using (Html.BeginForm("Save", "Surveys"))
-    {
-        @Html.ValidationSummary(true, "Please fix the following errors.")
+    <div style="width: 500px; text-align: center;">
         <div class="form-group">
             <label>Survey Name</label>
-            <input class="form-control" type="text"/>
-            <!-- Html.ValidationMessageFor(m => m.Name)-->
+            <input id="survey-name" class="form-control" type="text"/>
         </div>
         <div class="form-group">
-            <label>Creator Name</label>
-            <input class="form-control" type="text"/>
-            <!-- Html.ValidationMessageFor(m => m.Name)-->
+            <label>Author Name</label>
+            <input id="author-name" class="form-control" type="text"/>
+
         </div>
         <div class="form-group">
             <label>Description (optional)</label>
-            <textarea class="form-control"></textarea>
+            <textarea id="description" class="form-control"></textarea>
         </div>
         <div class="form-group">
             <label>Creation date</label>
-            <input type="date" class="form-control"/>
-            <!-- Html.ValidationMessageFor(m => m.Name)-->
+            <input id="creation-date" type="date" class="form-control"/>
         </div>
-
-        @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-primary" style="width: 100px;">Save</button>
-    }
-</div>
+        <button id="submit" class="btn btn-primary" style="width: 100px;">Save</button>
+    </div>
 </body>
 </html>
