@@ -13,6 +13,16 @@ namespace SurveyChallenge.Controllers
             return View();
         }
 
+        public IActionResult New()
+        {
+            return View();
+        }
+
+        public IActionResult Save()
+        {
+            return RedirectToAction("Index", "Surveys");
+        }
+
         public IActionResult Detail(int id)
         {
             return View(id);
