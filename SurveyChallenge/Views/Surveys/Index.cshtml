@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Rewrite.Internal.UrlActions
+<!DOCTYPE html>
 <html>
 <head>
     <link rel="stylesheet" href="~/css/surveys.css" />
@@ -7,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            // GET surveys to fill list of surveys
+            // GET surveys and add them to the table
             $.ajax({
                 url: "/api/surveys",
                 method: "GET",
@@ -38,6 +39,11 @@
                     });
                 }
             });
+
+            // Open New survey view when clicking button
+            $("#new-survey-btn").click(function() {
+                window.location.href = "/surveys/new";
+            });
         });
     </script>
 
@@ -50,7 +56,7 @@
     </div>
     
     <!-- New Survey button-->
-    <button class="add-survey-button">Create new survey</button>
+    <button id="new-survey-btn" class="add-survey-button">Create new survey</button>
     
     <!-- List of Surveys-->
     <div id="surveys-div">
