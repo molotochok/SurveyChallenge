@@ -8,13 +8,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
+            var _surveys = [];
             // GET surveys and add them to the table
             $.ajax({
                 url: "/api/surveys",
                 method: "GET",
                 success: function (surveys) {
-                    surveys.forEach(function(survey) {
-                        $("#surveys").append("<tr data-survey-id='" +survey.id + "'><td><div class='survey-page-table-td'><div><label class='survey-name'>" +survey.name + "</label><label class='survey-dateCreated'>Created " +new Date(survey.dateCreated).getFullYear() + " year</label></div><div class='survey-authorName'><label>" +survey.authorName + "</label></div></div></td><td><img src='/images/eye.png'/><label>"+ survey.viewCount + "</label></td><td><img src='/images/next.png' class='survey-arrow-td'/></td></tr>");
+                    _surveys = surveys;
+                    surveys.forEach(function (survey) {
+                        $("#surveys").append("<tr data-survey-id='" +survey.id + "'><td><div class='survey-page-table-td'><div><label class='survey-name'>" +survey.name + "</label><label class='survey-dateCreated'>Created " +new Date(survey.dateCreated).getFullYear() + " year</label></div><div class='survey-authorName'><label>" +survey.authorName + "</label></div></div></td><td><img src='/images/eye.png'/><label class='survey-viewCount'>"+ survey.viewCount + "</label></td><td><img src='/images/next.png' class='survey-arrow-td'/></td></tr>");
                     });
                 }
             });
@@ -26,8 +28,28 @@
 
             // Open survey detail view base on surveyId
             $("#surveys").on('click', 'tr', function () {
-                var surveyId = $(this).attr("data-survey-id");
-                window.location.href = "/surveys/detail/"+surveyId;
+                var surveyId = parseInt($(this).attr("data-survey-id"));
+
+                // Working with surveyCount
+                var newSurvey = {};
+                _surveys.forEach(function (s) {
+                    if (s.id === surveyId) {
+                        newSurvey = s;
+                        newSurvey.viewCount += 1;
+                        return;
+                    }
+                });
+
+                $.ajax({
+                    url: "/api/survey/"+surveyId,
+                    contentType: "application/json; charset=utf-8",
+                    method: "PUT",
+                    data: JSON.stringify(newSurvey),
+                    datatype: "json",
+                    success: function () {
+                        window.location.href = "/surveys/detail/" + surveyId;
+                    }
+                });
             });
         });
     </script>
