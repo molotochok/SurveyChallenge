@@ -10,7 +10,7 @@ using SurveyChallenge.Models;
 
 namespace SurveyChallenge.Controllers.Api
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class QuestionAnswersController : ControllerBase
     {

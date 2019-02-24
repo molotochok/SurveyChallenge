@@ -36,7 +36,7 @@
     background-color: white;
 }
 
-#survey-visit-count{
+#survey-view-count-div{
     clear:both;
     float: left;
     margin-left: 100px;
@@ -53,7 +53,6 @@ table {
 table, td {
     border-collapse: collapse;
     border-bottom: 1px solid black;
-    padding: 9px;
 }
 
 .question{
@@ -64,11 +63,14 @@ table, td {
     padding: 10px;
 }
 
-.question-title{
+.question-title {
+    font-size: large;
+    font-weight: bold;
 }
 
 .question-description{
     clear:both;
+    font-size: medium;
 }
 
 .answers{

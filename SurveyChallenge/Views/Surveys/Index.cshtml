@@ -14,28 +14,7 @@
                 method: "GET",
                 success: function (surveys) {
                     surveys.forEach(function(survey) {
-                        $("#surveys").append("" +
-                            "<tr data-survey-id='"+survey.id+"'>" +
-                            "   <td>" +
-                            "       <div class='survey-page-table-td'>" +
-                            "           <div>" +
-                            "               <label class='survey-name'>" + survey.name + "</label>" +
-                            "               <label class='survey-dateCreated'>Created " + new Date(survey.dateCreated).getFullYear() + " year</label>" +
-                            "           </div>" +
-                            "           <div class='survey-authorName'>" +
-                            "               <label>"+survey.authorName+"</label>" +
-                            "           </div>" +
-                            "       </div>" +
-                            "   </td>" +
-                            "   <td>" +
-                            "       <img src='/images/eye.png'/>" +
-                            "       <label>"+survey.viewCount+"</label>" +
-                            "   </td>" +
-                            "   <td>" +
-                            "       <img src='/images/next.png' class='survey-arrow-td'/>" +
-                            "   </td>" +
-                            "</tr>"
-                        );
+                        $("#surveys").append("<tr data-survey-id='" +survey.id + "'><td><div class='survey-page-table-td'><div><label class='survey-name'>" +survey.name + "</label><label class='survey-dateCreated'>Created " +new Date(survey.dateCreated).getFullYear() + " year</label></div><div class='survey-authorName'><label>" +survey.authorName + "</label></div></div></td><td><img src='/images/eye.png'/><label>"+ survey.viewCount + "</label></td><td><img src='/images/next.png' class='survey-arrow-td'/></td></tr>");
                     });
                 }
             });

@@ -20,6 +20,10 @@ namespace SurveyChallenge
             // Question
             CreateMap<Question, QuestionDto>();
             CreateMap<QuestionDto, Question>();
+
+            // Answer
+            CreateMap<Answer, AnswerDto>();
+            CreateMap<AnswerDto, Answer>();
         }
     }
 

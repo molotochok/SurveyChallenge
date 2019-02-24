@@ -1,53 +1,80 @@
-﻿@model int
+﻿<!-- Survey id -->
+@model int
 <!DOCTYPE html>
 <html>
 <head>
     <link rel="stylesheet" href="~/css/survey_detail.css" />
     <meta name="viewport" content="width=device-width" />
     <title>Details</title>
+    <!-- JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "/api/survey/" +@Model,
+                method: "GET",
+                success: function (s) {
+                    $("#survey-name").text(s.name);
+                    $("#survey-description").text(s.description);
+                    $("#survey-createdDate").text("Created " + new Date(s.dateCreated).getFullYear());
+                    $("#survey-authorName").text(s.authorName);
+                    $("#survey-view-count").text(s.viewCount);
+
+                    // Questions
+                    $.ajax({
+                        url: "/api/surveyquestions/"+@Model,
+                        method: "GET",
+                        success: function (questions) {
+                            console.log(questions);
+                            questions.forEach(function(question) {
+                                // td in table which contains answers
+                                var answersHtml = "";
+                                $.ajax({
+                                    url: "/api/questionanswers/" + question.id,
+                                    method: "GET",
+                                    success: function (answers) {
+                                        answersHtml += "<td class='answers'><div><ul>";
+                                        answers.forEach(function (answer) {
+                                            console.log(answer.text);
+                                            answersHtml += "<li>" + answer.text + "</li>";
+                                        });
+                                        answersHtml += "</ul></div></td>";
+                                    
+                                        $("#questions").append("<tr><td class='question'><div><label class='question-title'>" + question.text + "</label><p class='question-description'>" + question.comment + "</p></div></td>" + answersHtml + "</tr>");
+                                    }
+                                });
+                                
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <div>
         <div class="center">
-            <label id="survey-name">Survey @Model</label>
+            <label id="survey-name"></label>
         </div>
         <div class="center">
-            <label id="survey-description">Простота в работе. Мы приложили много усилий, чтобы работать на нашей бирже копирайтинга было максимально легко и удобно. Интуитивно понятный интерфейс, постоянное совершенствование функционала и подробный FAQ помогут в работе начинающим и обеспечат комфорт постоянным пользователям сервиса Text.ru.</label>
+            <label id="survey-description"></label>
         </div>
         <div>
-            <label id="survey-createdDate">Created today</label>
-        </div>
-        <div id="survey-authorName">
-            <label>Author Name</label>
+            <label id="survey-createdDate"></label>
         </div>
         <div>
-            <div id="survey-visit-count">
+            <label id="survey-authorName"></label>
+        </div>
+        <div>
+            <div id="survey-view-count-div">
                 <img src="~/images/eye.png">
-                <label>5</label>
+                <label id="survey-view-count"></label>
             </div>
             <button id="add-question-btn">Add new question</button>
         </div>
         <div>
-            <table>
-                <tr>
-                    <td class="question">
-                        <div >
-                            <p class="question-title">Question title</p>
-                            <p class="question-description">Простота в работе. Мы приложили много усилий, чтобы работать на нашей бирже копирайтинга было максимально легко и удобно. Интуитивно понятный интерфейс, постоянное совершенствование функционала и подробный FAQ помогут в работе начинающим и обеспечат комфорт постоянным пользователям сервиса Text.ru.</p>
-                        </div>
-                    </td>
-                    <td class="answers">
-                        <div>
-                            <ul>
-                                <li>Answer 1</li>
-                                <li>Answer 2</li>
-                                <li>Answer 3</li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-
-            </table>
+            <table id="questions"></table>
         </div>
     </div>
 </body>
