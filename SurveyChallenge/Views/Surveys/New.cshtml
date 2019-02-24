@@ -2,64 +2,85 @@
 <html>
 <head>
     <link rel="stylesheet" href="~/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/error.css" />
     <meta name="viewport" content="width=device-width" />
     <title>New</title>
+    <!-- JQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- JQuery Validation plugin-->
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script>
         $(document).ready(function () {
             // Submit button click event
             // Check if all data is valid
             // If valid -> create new survey
-            $("#submit").click(function () {
-                var surveyName = $("#survey-name").val();
-                var authorName = $("#author-name").val();
-                var description = $("#description").val();
-                var creationDate = $("#creation-date").val();
+            $.validator.addMethod("validSurveyName", function (e) {
+                return e && e.length > 0;
+            }, "Please enter a survey name.");
+            $.validator.addMethod("validAuthorName", function (e) {
+                return e && e.length > 0;
+            }, "Please enter an author name.");
+            $.validator.addMethod("validCreationDate", function (e) {
+                console.log(e);
+                return e;
+            }, "Please enter a creation date.");
 
-                // Creating survey
-                var surveyJson = JSON.stringify({
-                    name: surveyName,
-                    description: description,
-                    dateCreated: creationDate,
-                    authorName: authorName,
-                    viewCount: 0
-                });
+            var validator = $("#newSurvey").validate({
+                submitHandler: function () {
+                    var surveyName = $("#survey-name").val();
+                    var authorName = $("#author-name").val();
+                    var description = $("#description").val();
+                    var creationDate = $("#creation-date").val();
 
-                // Send POST request to add new servey
-                $.ajax({
-                    url: "/api/survey",
-                    contentType: "application/json; charset=utf-8",
-                    method: "POST",
-                    data: surveyJson,
-                    datatype: "json",
-                    success: function (e) {
+                    // Creating survey
+                    var survey = {
+                        name: surveyName,
+                        description: description,
+                        dateCreated: creationDate,
+                        authorName: authorName,
+                        viewCount: 0
+                    };
+
+                    // Send POST request to add new survey
+                    $.ajax({
+                        url: "/api/survey",
+                        contentType: "application/json; charset=utf-8",
+                        method: "POST",
+                        data: JSON.stringify(survey),
+                        datatype: "json"
+                    }).done(function () {
                         window.location.href = "/surveys/index";
-                    }
-                });
+
+                    });
+
+                    return false;
+                }
             });
         });
     </script>
 </head>
 <body>
-    <div style="width: 500px; text-align: center;">
-        <div class="form-group">
-            <label>Survey Name</label>
-            <input id="survey-name" class="form-control" type="text"/>
-        </div>
-        <div class="form-group">
-            <label>Author Name</label>
-            <input id="author-name" class="form-control" type="text"/>
+    <form id="newSurvey">
+        <div style="width: 500px; text-align: center;">
+            <div class="form-group">
+                <label>Survey Name</label>
+                <input id="survey-name" name="survey-name" class="form-control" data-rule-validSurveyName="true" type="text"/>
+            </div>
+            <div class="form-group">
+                <label>Author Name</label>
+                <input id="author-name" name="author-name" class="form-control" data-rule-validAuthorName="true" type="text"/>
 
+            </div>
+            <div class="form-group">
+                <label>Description (optional)</label>
+                <textarea id="description" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Creation date</label>
+                <input id="creation-date" name="creation-date" data-rule-validCreationDate="true" type="date" class="form-control"/>
+            </div>
+            <button type="submit" id="submit" class="btn btn-primary" style="width: 100px;">Save</button>
         </div>
-        <div class="form-group">
-            <label>Description (optional)</label>
-            <textarea id="description" class="form-control"></textarea>
-        </div>
-        <div class="form-group">
-            <label>Creation date</label>
-            <input id="creation-date" type="date" class="form-control"/>
-        </div>
-        <button id="submit" class="btn btn-primary" style="width: 100px;">Save</button>
-    </div>
+    </form>
 </body>
 </html>
