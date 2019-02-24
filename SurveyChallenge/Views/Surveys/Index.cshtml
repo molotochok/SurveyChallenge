@@ -15,7 +15,7 @@
                 success: function (surveys) {
                     surveys.forEach(function(survey) {
                         $("#surveys").append("" +
-                            "<tr>" +
+                            "<tr data-survey-id='"+survey.id+"'>" +
                             "   <td>" +
                             "       <div class='survey-page-table-td'>" +
                             "           <div>" +
@@ -43,6 +43,12 @@
             // Open New survey view when clicking button
             $("#new-survey-btn").click(function() {
                 window.location.href = "/surveys/new";
+            });
+
+            // Open survey detail view base on surveyId
+            $("#surveys").on('click', 'tr', function () {
+                var surveyId = $(this).attr("data-survey-id");
+                window.location.href = "/surveys/detail/"+surveyId;
             });
         });
     </script>

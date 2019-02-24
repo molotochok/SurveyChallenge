@@ -36,6 +36,12 @@ table, td {
     border-bottom: 1px solid black;
     padding: 9px;
 }
+tr:hover {
+    background-color:lightskyblue;
+}
+tr:active {
+    background-color:skyblue;
+}
 
 .survey-arrow-td {
     float: right;
