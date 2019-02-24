@@ -1,45 +1,75 @@
-﻿<!DOCTYPE html>
-
+﻿@model int
+<!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="~/css/error.css"/>
     <link rel="stylesheet" href="~/css/bootstrap.css"/>
     <meta name="viewport" content="width=device-width"/>
     <title>New</title>
+    <!-- JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- JQuery Validation plugin-->
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.validator.addMethod("validQuestion",
+                function(e) {
+                    return e && e.length > 0;
+                },
+                "Please enter a question.");
+
+            var validator = $("#newQuestion").validate({
+                submitHandler: function() {
+                    var questionText = $("#question-text").val();
+                    var questionComment = $("#question-comment").val();
+
+                    // Creating question
+                    var question = {
+                        text: questionText,
+                        comment: questionComment
+                    };
+
+                    // Send POST request to add new question
+                    $.ajax({
+                        url: "/api/survey/" + @Model,
+                        contentType: "application/json; charset=utf-8",
+                        method: "POST",
+                        data: JSON.stringify(question),
+                        datatype: "json"
+                    }).done(function() {
+                        window.location.href = "/surveys/detail/" + @Model;
+                    });
+
+                    return false;
+                }
+            });
+        });
+    </script>
 </head>
 <body>
-    <div style="width: 500px; text-align: center;">
-        @using (Html.BeginForm("Save", "Questions"))
-        {
-            @Html.ValidationSummary(true, "Please fix the following errors.")
+    <form id="newQuestion">
+        <div style="width: 500px; text-align: center;">
             <div class="form-group">
                 <label class="form-text">Question</label>
-                <input class="form-control" type="text" />
-                <!-- Html.ValidationMessageFor(m => m.Name)-->
+                <input class="form-control" name="question-text" id="question-text" type="text" data-rule-validQuestion="true" />
             </div>
             <div class="form-group">
                 <label class="form-text">Comment (optional)</label>
-                <textarea class="form-control"></textarea>
+                <textarea class="form-control" name="question-comment" id="question-comment"></textarea>
             </div>
             <div class="form-group">
                 <div class="form-row">
                     <label class="col">Add Answers</label>
-                    <input type="text" class="form-control col"/>
+                    <input type="text" class="form-control col" />
                     <button type="button" class="btn btn-secondary">Add</button>
                 </div>
                 <div class="form-group">
                     <label class="form-text">Answers:</label>
-                    <ul class="list-group">
-                        <li class="list-group-item">Some text</li>
-                        <li class="list-group-item">Some text</li>
-                        <li class="list-group-item">Some text</li>
-                        <li class="list-group-item">Some text</li>
-
-                    </ul>
+                    <ul class="list-group"></ul>
                 </div>
             </div>
-            @Html.AntiForgeryToken()
             <button type="submit" class="btn btn-primary" style="width: 100px;">Save</button>
-        }
-    </div>
+        </div>
+    </form>
 </body>
 </html>

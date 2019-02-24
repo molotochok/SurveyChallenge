@@ -76,3 +76,8 @@ table, td {
 .answers{
     width:55%;
 }
+
+#add-question-btn:hover {
+    color: blue;
+    border-color: blue;
+}

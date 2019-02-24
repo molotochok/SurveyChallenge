@@ -10,6 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
+            // Survey
             $.ajax({
                 url: "/api/survey/" +@Model,
                 method: "GET",
@@ -27,8 +28,8 @@
                         success: function (questions) {
                             console.log(questions);
                             questions.forEach(function(question) {
-                                // td in table which contains answers
                                 var answersHtml = "";
+                                // Answers
                                 $.ajax({
                                     url: "/api/questionanswers/" + question.id,
                                     method: "GET",
@@ -48,6 +49,10 @@
                         }
                     });
                 }
+            });
+
+            $("#add-question-btn").click(function() {
+                window.location.href = "/questions/new/"+@Model;
             });
         });
     </script>

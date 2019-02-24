@@ -8,14 +8,9 @@ namespace SurveyChallenge.Controllers
 {
     public class QuestionsController : Controller
     {
-        public IActionResult New()
+        public IActionResult New(int id)
         {
-            return View();
-        }
-
-        public IActionResult Save()
-        {
-            return RedirectToAction("Detail", "Surveys",new {id=10});
+            return View(id);
         }
     }
 }
