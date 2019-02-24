@@ -21,10 +21,11 @@
                 "Please enter an answer");
             var answerValidator = $("#newAnswer").validate({
                 submitHandler: function () {
-                    var answer = $("#answer").val();
-                    answers.push(answer);
+                    var answerText = $("#answer").val();
+                    $("#answer").val("");
 
-                    $("#list-answers").append("<li class='list-group-item'>" + answer + "</li>");
+                    answers.push({text:answerText});
+                    $("#list-answers").append("<li class='list-group-item'>" + answerText + "</li>");
                     return false;
                 }
             });
@@ -46,6 +47,11 @@
                         comment: questionComment
                     };
 
+                    // Check answers
+                    if (answers.length <= 0) {
+                        alert("Please enter at least one answer.");
+                        return false;
+                    }
                     // Send POST request to add new question
                     $.ajax({
                         url: "/api/survey/" + @Model,
@@ -53,10 +59,19 @@
                         method: "POST",
                         data: JSON.stringify(question),
                         datatype: "json"
-                    }).done(function() {
+                    }).done(function (q) {
+                        // Save answers
+                        $.ajax({
+                            url: "/api/question/multiple/" + q.question.id,
+                            contentType: "application/json; charset=utf-8",
+                            method: "POST",
+                            data: JSON.stringify(answers),
+                            datatype: "json"
+                        }).done(function (e) {
+                            console.log(e);
+                        });
                         window.location.href = "/surveys/detail/" + @Model;
                     });
-
                     return false;
                 }
             });

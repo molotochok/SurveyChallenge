@@ -36,7 +36,7 @@ namespace SurveyChallenge.Controllers.Api
         }
 
         [HttpPost("question/{id}")]
-        public ActionResult AddQuestionToSurvey(int id, AnswerDto answerDto)
+        public ActionResult AddAnswerToQuestion(int id, AnswerDto answerDto)
         {
             var questionInDb = _context.Questions.SingleOrDefault(q => q.Id == id);
             if (questionInDb == null)
@@ -52,6 +52,28 @@ namespace SurveyChallenge.Controllers.Api
             _context.SaveChanges();
 
             return Created(new Uri(Request.GetDisplayUrl() + "/" + questionAnswer.Id), questionAnswer);
+        }
+
+        [HttpPost("question/multiple/{id}")]
+        public ActionResult AddMultipleAnswersToQuestion(int id, IEnumerable<AnswerDto> answerDtos)
+        {
+            var questionInDb = _context.Questions.SingleOrDefault(q => q.Id == id);
+            if (questionInDb == null)
+                return NotFound();
+
+            foreach (var answerDto in answerDtos)
+            {
+                var questionAnswer = new QuestionAnswer
+                {
+                    Question = questionInDb,
+                    Answer = _mapper.Map<Answer>(answerDto)
+                };
+                _context.QuestionAnswer.Add(questionAnswer);
+            }
+
+            _context.SaveChanges();
+
+            return Ok();
         }
     }
 }
