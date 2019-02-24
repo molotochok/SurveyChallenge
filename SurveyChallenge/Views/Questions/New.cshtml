@@ -11,14 +11,31 @@
     <!-- JQuery Validation plugin-->
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
+            // Add answer
+            var answers = [];
+            $.validator.addMethod("validAnswer",
+                function(e) {
+                    return e && e.length > 0;
+                },
+                "Please enter an answer");
+            var answerValidator = $("#newAnswer").validate({
+                submitHandler: function () {
+                    var answer = $("#answer").val();
+                    answers.push(answer);
+
+                    $("#list-answers").append("<li class='list-group-item'>" + answer + "</li>");
+                    return false;
+                }
+            });
+            // Form
             $.validator.addMethod("validQuestion",
                 function(e) {
                     return e && e.length > 0;
                 },
                 "Please enter a question.");
 
-            var validator = $("#newQuestion").validate({
+            var formValidator = $("#newQuestion").validate({
                 submitHandler: function() {
                     var questionText = $("#question-text").val();
                     var questionComment = $("#question-comment").val();
@@ -57,18 +74,25 @@
                 <label class="form-text">Comment (optional)</label>
                 <textarea class="form-control" name="question-comment" id="question-comment"></textarea>
             </div>
-            <div class="form-group">
-                <div class="form-row">
-                    <label class="col">Add Answers</label>
-                    <input type="text" class="form-control col" />
-                    <button type="button" class="btn btn-secondary">Add</button>
-                </div>
-                <div class="form-group">
-                    <label class="form-text">Answers:</label>
-                    <ul class="list-group"></ul>
-                </div>
-            </div>
             <button type="submit" class="btn btn-primary" style="width: 100px;">Save</button>
+        </div>
+    </form>
+    <form id="newAnswer">
+        <div class="form-group" style="width: 500px; text-align: center; margin-top: 25px;  position: absolute; right: 50px; top: 0px;">
+
+            <div class="form-group">
+                <label>Add Answers</label>
+                <input type="text" id="answer" class="form-control" data-rule-validAnswer="true" />
+            </div>
+            
+            <button type="submit" class="btn btn-secondary" style="width: 100px;">Add</button>
+            
+
+            <div class="form-group">
+                <label class="form-text">Answers:</label>
+                <ul class="list-group" id="list-answers"></ul>
+            </div>
+
         </div>
     </form>
 </body>
