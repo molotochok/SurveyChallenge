@@ -29,6 +29,7 @@
 }
 table {
     width: 100%;
+    margin-top: 50px;
 }
 
 table, td {
@@ -42,6 +43,10 @@ tr:hover {
 tr:active {
     background-color:skyblue;
 }
+button:hover {
+    color: blue;
+    border-color: blue;
+}
 
 .survey-arrow-td {
     float: right;
@@ -51,6 +56,7 @@ tr:active {
     font-weight: bold;
     font-size: large;
     font-family: "Arial";
+    margin-right: 5px;
 }
 .survey-dateCreated {
     font-style: italic;
