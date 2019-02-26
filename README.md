@@ -1,6 +1,5 @@
-## Routes
+## Routes description
 ### Api
-
 - Surveys
 
 | Method | Route            | Description            |     
@@ -37,3 +36,11 @@
 | POST   | /api/question/{id}                | Add new answer to a question                    |    
 | POST   | /api/question/multiple/{id}       | Add list of answers to a question               |
 | GET    | /api/questionanswers/{questionId} | Get all ansers of a question                    |
+
+### MVC
+| Route                | Description                                                  |     
+| -------------------- | ------------------------------------------------------------ | 
+| /surveys/index       | shows list of surveys                                        |   
+| /surveys/detail/{id} | shows detail about survey with id = {id}                     | 
+| /questions/new/{id}  | allows user to create new question for survey with id = {id} |   
+| /surveys/new         | allows user to create new survey                             |
