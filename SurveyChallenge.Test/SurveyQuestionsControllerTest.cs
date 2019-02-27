@@ -57,14 +57,18 @@ namespace SurveyChallenge.Test
         public void Post_AddQuestionToInvalidSurveyId_ReturnsNotFound()
         {
             // Arrange
-            QuestionDto questionDto = null;
+            var questionDto = new QuestionDto
+            {
+                Comment = "Connecting to survey comment",
+                Text = "Connecting to survey text"
+            };
             var id = -1;
 
             // Act
             var result = _controller.AddQuestionToSurvey(id, questionDto);
 
             // Assert
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<NotFoundResult>(result);
         }
         [Fact]
         public void Post_AddQuestionToSurvey_ReturnsSurveyQuestion()

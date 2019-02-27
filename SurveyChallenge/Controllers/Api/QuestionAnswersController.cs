@@ -25,7 +25,7 @@ namespace SurveyChallenge.Controllers.Api
         }
 
         [HttpGet("questionanswers/{questionId}")]
-        public ActionResult<IEnumerable<AnswerDto>> GetAnswersOfQuestion(int questionId)
+        public ActionResult GetAnswersOfQuestion(int questionId)
         {
             var answers = _context.QuestionAnswer
                 .Where(q => q.Question.Id == questionId)
@@ -41,6 +41,9 @@ namespace SurveyChallenge.Controllers.Api
         [HttpPost("question/{id}")]
         public ActionResult AddAnswerToQuestion(int id, AnswerDto answerDto)
         {
+            if (answerDto == null)
+                return BadRequest();
+
             var questionInDb = _context.Questions.SingleOrDefault(q => q.Id == id);
             if (questionInDb == null)
                 return NotFound();
@@ -54,12 +57,17 @@ namespace SurveyChallenge.Controllers.Api
             _context.QuestionAnswer.Add(questionAnswer);
             _context.SaveChanges();
 
-            return Created(new Uri(Request.GetDisplayUrl() + "/" + questionAnswer.Id), questionAnswer);
+            var displayUrl = (Request != null) ? Request.GetDisplayUrl() : "http://localhost/question" + id;
+
+            return Created(new Uri(displayUrl + "/" + questionAnswer.Id), questionAnswer);
         }
 
         [HttpPost("question/multiple/{id}")]
         public ActionResult AddMultipleAnswersToQuestion(int id, IEnumerable<AnswerDto> answerDtos)
         {
+            if (answerDtos == null)
+                return BadRequest();
+
             var questionInDb = _context.Questions.SingleOrDefault(q => q.Id == id);
             if (questionInDb == null)
                 return NotFound();
