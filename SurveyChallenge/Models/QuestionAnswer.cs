@@ -12,7 +12,10 @@ namespace SurveyChallenge.Models
 
         [Required]
         public Question Question { get; set; }
+        public int QuestionId { get; set; }
+
         [Required]
         public Answer Answer { get; set; }
+        public int AnswerId { get; set; }
     }
 }
