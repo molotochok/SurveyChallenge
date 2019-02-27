@@ -28,7 +28,7 @@ namespace SurveyChallenge.Controllers.Api
 
         // GET /api/surveys
         [HttpGet("surveys")]
-        public ActionResult<IEnumerable<SurveyDto>> GetSurveys()
+        public ActionResult GetSurveys()
         {
             var surveys = _context.Surveys.Select(m => _mapper.Map<SurveyDto>(m)).ToList();
 
@@ -37,7 +37,7 @@ namespace SurveyChallenge.Controllers.Api
 
         // GET api/survey/{id}
         [HttpGet("survey/{id}")]
-        public ActionResult<SurveyDto> GetSurvey(int id)
+        public ActionResult GetSurvey(int id)
         {
             var survey = _context.Surveys.SingleOrDefault(s => s.Id == id);
 
@@ -52,7 +52,7 @@ namespace SurveyChallenge.Controllers.Api
         public ActionResult PostSurvey(SurveyDto surveyDto)
         {
             if (surveyDto == null)
-                return NotFound();
+                return BadRequest();
 
             var survey = _mapper.Map<Survey>(surveyDto);
 

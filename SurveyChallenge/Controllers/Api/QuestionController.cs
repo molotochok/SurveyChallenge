@@ -50,7 +50,7 @@ namespace QuestionChallenge.Controllers.Api
         public ActionResult PostQuestion(QuestionDto questionDto)
         {
             if (questionDto == null)
-                return NotFound();
+                return BadRequest();
 
             var question = _mapper.Map<Question>(questionDto);
 
