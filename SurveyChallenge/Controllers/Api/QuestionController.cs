@@ -26,7 +26,7 @@ namespace QuestionChallenge.Controllers.Api
 
         // GET /api/questions
         [HttpGet("questions")]
-        public ActionResult GetQuestions()
+        public ActionResult<IEnumerable<QuestionDto>> GetQuestions()
         {
             var questions = _context.Questions.Select(m => _mapper.Map<QuestionDto>(m)).ToList();
 
@@ -35,7 +35,7 @@ namespace QuestionChallenge.Controllers.Api
 
         // GET api/question/{id}
         [HttpGet("question/{id}")]
-        public ActionResult GetQuestion(int id)
+        public ActionResult<QuestionDto> GetQuestion(int id)
         {
             var question = _context.Questions.SingleOrDefault(s => s.Id == id);
 
@@ -49,6 +49,9 @@ namespace QuestionChallenge.Controllers.Api
         [HttpPost("question")]
         public ActionResult PostQuestion(QuestionDto questionDto)
         {
+            if (questionDto == null)
+                return NotFound();
+
             var question = _mapper.Map<Question>(questionDto);
 
             _context.Questions.Add(question);

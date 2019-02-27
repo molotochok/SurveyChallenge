@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace SurveyChallenge.Controllers.Api
 
         // GET /api/surveys
         [HttpGet("surveys")]
-        public ActionResult GetSurveys()
+        public ActionResult<IEnumerable<SurveyDto>> GetSurveys()
         {
             var surveys = _context.Surveys.Select(m => _mapper.Map<SurveyDto>(m)).ToList();
 
@@ -36,7 +37,7 @@ namespace SurveyChallenge.Controllers.Api
 
         // GET api/survey/{id}
         [HttpGet("survey/{id}")]
-        public ActionResult GetSurvey(int id)
+        public ActionResult<SurveyDto> GetSurvey(int id)
         {
             var survey = _context.Surveys.SingleOrDefault(s => s.Id == id);
 
@@ -50,13 +51,19 @@ namespace SurveyChallenge.Controllers.Api
         [HttpPost("survey")]
         public ActionResult PostSurvey(SurveyDto surveyDto)
         {
+            if (surveyDto == null)
+                return NotFound();
+
             var survey = _mapper.Map<Survey>(surveyDto);
 
             _context.Surveys.Add(survey);
             _context.SaveChanges();
 
             surveyDto.Id = survey.Id;
-            return Created(new Uri(Request.GetDisplayUrl() + "/" + survey.Id), surveyDto);
+
+            var requestUrl = Request == null ? "http://localhost/api/survey" : Request.GetDisplayUrl();
+            
+            return Created(new Uri(requestUrl + "/" + survey.Id), surveyDto);
         }
 
         // PUT api/survey/{id}

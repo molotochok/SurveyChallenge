@@ -48,14 +48,14 @@ namespace SurveyChallenge.Controllers.Api
 
         // GET /surveyquestions/{surveyId}
         [HttpGet("surveyquestions/{surveyId}")]
-        public ActionResult GetQuestionsOfSurvey(int surveyId)
+        public ActionResult<QuestionDto> GetQuestionsOfSurvey(int surveyId)
         {
             var questions = _context.SurveyQuestions
                 .Where(s => s.Survey.Id == surveyId)
                 .Select(q => _mapper.Map<QuestionDto>(q.Question))
                 .ToList();
 
-            return Ok(questions);
+            return questions.Count <= 0 ? null : Ok(questions);
         }
 
         // DELETE/surveyquestions/{surveyId}

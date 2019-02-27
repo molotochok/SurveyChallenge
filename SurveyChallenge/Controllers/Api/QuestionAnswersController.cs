@@ -25,12 +25,15 @@ namespace SurveyChallenge.Controllers.Api
         }
 
         [HttpGet("questionanswers/{questionId}")]
-        public ActionResult GetAnswersOfQuestion(int questionId)
+        public ActionResult<IEnumerable<AnswerDto>> GetAnswersOfQuestion(int questionId)
         {
             var answers = _context.QuestionAnswer
                 .Where(q => q.Question.Id == questionId)
                 .Select(a => _mapper.Map<AnswerDto>(a.Answer))
                 .ToList();
+
+            if (answers.Count <= 0)
+                return NotFound();
 
             return Ok(answers);
         }

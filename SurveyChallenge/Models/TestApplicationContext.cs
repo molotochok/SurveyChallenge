@@ -6,9 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SurveyChallenge.Models
 {
+    // Db context for testing
     public class TestApplicationContext : DbContext, IApplicationContext
     {
-        public TestApplicationContext(DbContextOptions<TestApplicationContext> options) : base(options) { }
+        private const string connectionString = "Server=(localdb)\\mssqllocaldb;Database=TestSurveyChallenge.Db;Trusted_Connection=True;";
+
+        public TestApplicationContext() : base(new DbContextOptionsBuilder<TestApplicationContext>().UseSqlServer(connectionString).Options) {}
 
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Question> Questions { get; set; }

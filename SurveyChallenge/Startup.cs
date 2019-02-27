@@ -48,9 +48,7 @@ namespace SurveyChallenge
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<ApplicationContext>(options =>options.UseSqlServer(Configuration.GetConnectionString("SurveyDatabase")));
-            services.AddDbContext<TestApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TestSurveyDatabase")));
-
-            services.AddTransient<IApplicationContext, ApplicationContext>();
+            services.AddScoped<IApplicationContext, ApplicationContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
