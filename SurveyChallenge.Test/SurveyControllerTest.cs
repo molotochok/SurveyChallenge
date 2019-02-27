@@ -161,7 +161,7 @@ namespace SurveyChallenge.Test
         }
 
         [Fact]
-        public void Put_InValidIdPassed_ReturnsNotFound()
+        public void Put_InvalidIdPassed_ReturnsNotFound()
         {
             // Arrange
             var surveyDto = new SurveyDto
@@ -184,7 +184,7 @@ namespace SurveyChallenge.Test
 
         #region DELETE
         [Fact]
-        public void Delete_InValidIdPassed_ReturnsNotFound()
+        public void Delete_InvalidIdPassed_ReturnsNotFound()
         {
             // Arrange
             var id = -1;
