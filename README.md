@@ -77,3 +77,7 @@
 ### As you can see there is viewCount which looks like an eye. It's value increments each time someone enters survey detail page
 ![image](https://user-images.githubusercontent.com/22146812/53448939-4eb00100-3a21-11e9-9258-b30de088876e.png)
 
+## Unit testing
+xUnit is used to create unit tests for api.
+There is additional DbContext (called: TestApplicationContext) created for testing. It has the same schema as the main context
+![image](https://user-images.githubusercontent.com/22146812/53499466-13f5a980-3ab1-11e9-94f7-67102946d6a2.png)
