@@ -15,12 +15,12 @@ namespace SurveyChallenge.Controllers.Api
 {
     [Route("api")]
     [ApiController]
-    public class SurveyQuestionController : ControllerBase
+    public class SurveyQuestionsController : ControllerBase
     {
         private readonly IApplicationContext _context;
         private readonly IMapper _mapper;
 
-        public SurveyQuestionController(IApplicationContext context, IMapper mapper)
+        public SurveyQuestionsController(IApplicationContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -30,6 +30,9 @@ namespace SurveyChallenge.Controllers.Api
         [HttpPost("survey/{id}")]
         public ActionResult AddQuestionToSurvey(int id, QuestionDto questionDto)
         {
+            if (questionDto == null)
+                return BadRequest();
+
             var surveyInDb = _context.Surveys.SingleOrDefault(s => s.Id == id);
             if (surveyInDb == null)
                 return NotFound();
@@ -43,19 +46,24 @@ namespace SurveyChallenge.Controllers.Api
             _context.SurveyQuestions.Add(surveyQuestion);
             _context.SaveChanges();
 
-            return Created(new Uri(Request.GetDisplayUrl() + "/" + surveyQuestion.Id), surveyQuestion);
+            var displayUrl = (Request != null) ? Request.GetDisplayUrl() : "http://localhost/survey/" + id;
+
+            return Created(new Uri(displayUrl + "/" + surveyQuestion.Id), surveyQuestion);
         }
 
         // GET /surveyquestions/{surveyId}
         [HttpGet("surveyquestions/{surveyId}")]
-        public ActionResult<QuestionDto> GetQuestionsOfSurvey(int surveyId)
+        public ActionResult GetQuestionsOfSurvey(int surveyId)
         {
             var questions = _context.SurveyQuestions
                 .Where(s => s.Survey.Id == surveyId)
                 .Select(q => _mapper.Map<QuestionDto>(q.Question))
                 .ToList();
 
-            return questions.Count <= 0 ? null : Ok(questions);
+            if(questions.Count <= 0)
+                return NotFound();
+
+            return Ok(questions);
         }
 
         // DELETE/surveyquestions/{surveyId}
@@ -70,7 +78,7 @@ namespace SurveyChallenge.Controllers.Api
             var surveyQuestions = _context.SurveyQuestions;
             foreach (var surveyQuestion in surveyQuestions)
             {
-                if (surveyQuestion.Survey.Id == surveyId)
+                if (surveyQuestion.SurveyId == surveyId)
                     surveyQuestions.Remove(surveyQuestion);
 
             }
