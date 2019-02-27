@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SurveyChallenge.Models
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : DbContext, IApplicationContext
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
 

@@ -15,10 +15,10 @@ namespace SurveyChallenge.Controllers.Api
     [ApiController]
     public class QuestionAnswersController : ControllerBase
     {
-        private readonly ApplicationContext _context;
+        private readonly IApplicationContext _context;
         private readonly IMapper _mapper;
 
-        public QuestionAnswersController(ApplicationContext context, IMapper mapper)
+        public QuestionAnswersController(IApplicationContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

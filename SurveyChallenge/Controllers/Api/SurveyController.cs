@@ -16,10 +16,10 @@ namespace SurveyChallenge.Controllers.Api
     [ApiController]
     public class SurveyController : ControllerBase
     {
-        private readonly ApplicationContext _context;
+        private readonly IApplicationContext _context;
         private readonly IMapper _mapper;
 
-        public SurveyController(ApplicationContext context, IMapper mapper)
+        public SurveyController(IApplicationContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
