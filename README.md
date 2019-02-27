@@ -1,3 +1,6 @@
+## Url
+https://surveychallenge20190227065421.azurewebsites.net/
+
 ## Database structure
 code-first migration was used
 
